@@ -1,20 +1,22 @@
 import java.util.Scanner;
 
-public class Main {
-    static Scanner scanner = new Scanner(System.in);
+import Blackjack.Blackjack;
 
+public class Main {
     public static void main(String[] args) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+
         displayTitle();
 
-        User user = createNewUser();
+        User user = createNewUser(scanner);
 
         if (user.getAge() < 18) {
-            none();
-            seperator();
-            empty();
-            text("You are not old enough to play!");
-            empty();
-            seperator();
+            Window.none();
+            Window.seperator();
+            Window.empty();
+            Window.text("You are not old enough to play!");
+            Window.empty();
+            Window.seperator();
             
             System.exit(0);
 
@@ -22,13 +24,14 @@ public class Main {
         
         boolean playing = true;
         while (playing) {
-            clear();
+            Window.clear();
+            displayTitle();
             displayUserStats(user);
             
-            int sel = option("Please select a game:", new String[]{"Blackjack", "Roulette", "Slots", "Exit"} );
+            int sel = Window.option("Please select a game:", new String[]{"Blackjack", "Roulette", "Slots", "Exit"}, scanner);
             switch (sel) {
                 case 1:
-                    playBlackjack(user);
+                    playBlackjack(user, scanner);
                     break;
 
                 case 2:
@@ -40,7 +43,7 @@ public class Main {
                     break;
 
                 case 4:
-                    exit();
+                    playing = false;
 
             }
 
@@ -48,64 +51,65 @@ public class Main {
 
         scanner.close();
 
+        exit();
+
     }
 
-    public static void playBlackjack(User user) throws InterruptedException {
+    public static void playBlackjack(User user, Scanner scanner) throws InterruptedException {
         int money = user.getBalance();
 
-        none();
-        seperator();
-        empty();
-        text("How much would you like to bet?");
-        empty();
-        seperator();
+        Window.none();
+        Window.seperator();
+        Window.empty();
+        Window.text("How much would you like to bet?");
+        Window.empty();
+        Window.seperator();
 
         System.out.println();
 
         int bet = scanner.nextInt();
 
         if (money - bet < 0) {
-            none();
-            seperator();
-            empty();
-            text("You don't have enough money to play!");
-            empty();
-            seperator();
+            Window.none();
+            Window.seperator();
+            Window.empty();
+            Window.text("You don't have enough money to play!");
+            Window.empty();
+            Window.seperator();
 
             return;
 
         }
 
-        Blackjack blackjack = new Blackjack();
-        int[] result = blackjack.playBlackjack(money);
+        int[] result = Blackjack.playBlackjack(money, scanner);
 
         if (result[0] == 2) {
             money += bet * 2;
 
             user.addGame(true); 
 
-            none();
-            seperator();
-            empty();
-            text("You won " + (bet * 2) + "$!");
-            empty();
-            seperator();
+            Window.none();
+            Window.seperator();
+            Window.empty();
+            Window.text("You won " + (bet * 2) + "$!");
+            Window.empty();
+            Window.seperator();
 
-            Thread.sleep(5000);
+            Thread.sleep(3000);
 
         } else {
             money -= bet;
 
             user.addGame(false);
 
-            none();
-            seperator();
-            empty();
-            text("You lost " + (bet) + "$!");
-            empty();
-            seperator();
+            Window.none();
+            Window.seperator();
+            Window.empty();
+            Window.text("You lost " + (bet) + "$!");
+            Window.empty();
+            Window.seperator();
 
-            Thread.sleep(5000);
+            Thread.sleep(3000);
 
         }
 
@@ -114,12 +118,12 @@ public class Main {
     }
 
     public static void exit() throws InterruptedException {
-        none();
-        seperator();
-        empty();
-        text("Thank you for playing!");
-        empty();
-        seperator();
+        Window.none();
+        Window.seperator();
+        Window.empty();
+        Window.text("Thank you for playing!");
+        Window.empty();
+        Window.seperator();
 
         Thread.sleep(2000);
 
@@ -127,25 +131,25 @@ public class Main {
 
     }
 
-    public static User createNewUser() {
-        none();
-        seperator();
-        empty();
-        text("Welcome to the casino!");
-        empty();
-        text("Please enter your name: ");
-        empty();
-        seperator();
+    public static User createNewUser(Scanner scanner) {
+        Window.none();
+        Window.seperator();
+        Window.empty();
+        Window.text("Welcome to the casino!");
+        Window.empty();
+        Window.text("Please enter your name: ");
+        Window.empty();
+        Window.seperator();
 
         System.out.println();
         String name = scanner.nextLine();
         System.out.println();
 
-        seperator();
-        empty();
-        text("Please enter your age: ");
-        empty();
-        seperator();
+        Window.seperator();
+        Window.empty();
+        Window.text("Please enter your age: ");
+        Window.empty();
+        Window.seperator();
 
         System.out.println();
         int age = scanner.nextInt();
@@ -157,92 +161,37 @@ public class Main {
     }
 
     public static void displayTitle() {
-        seperator();
-        empty();
-        text(" $$$$$$\\  $$\\       $$$$$$\\\\        $$$$$$\\   $$$$$$\\   $$$$$$\\  $$$$$$\\ $$\\   $$\\  $$$$$$\\");
-        text("$$  __$$\\ $$ |      \\_$$  _|      $$  __$$\\ $$  __$$\\\\ $$  __$$\\ \\_$$  _|$$$\\  $$ |$$  __$$\\");
-        text("$$ /  \\__|$$ |        $$ |        $$ /  \\__|$$ /  $$ |$$ /  \\__|  $$ |  $$$$\\ $$ |$$ /  $$ |");
-        text("$$ |      $$ |        $$ |        $$ |      $$$$$$$$ |\\$$$$$$\\    $$ |  $$ $$\\$$ |$$ |  $$ |");
-        text("$$ |      $$ |        $$ |        $$ |      $$  __$$ | \\____$$\\   $$ |  $$ \\$$$$ |$$ |  $$ |");
-        text("$$ |  $$\\ $$ |        $$ |        $$ |  $$\\ $$ |  $$ |$$\\   $$ |  $$ |  $$ |\\$$$ |$$ |  $$ |");
-        text("\\$$$$$$  |$$$$$$$$\\ $$$$$$\\       \\$$$$$$  |$$ |  $$ |\\$$$$$$  |$$$$$$\\ $$ | \\$$ | $$$$$$  |");
-        text(" \\______/ \\________|\\______|       \\______/ \\__|  \\__| \\______/ \\______|\\__|  \\__| \\______/");
-        empty();
-        seperator();
+        Window.seperator();
+        Window.empty();
+        Window.text(" $$$$$$\\  $$\\       $$$$$$\\\\        $$$$$$\\   $$$$$$\\   $$$$$$\\  $$$$$$\\ $$\\   $$\\  $$$$$$\\");
+        Window.text("$$  __$$\\ $$ |      \\_$$  _|      $$  __$$\\ $$  __$$\\\\ $$  __$$\\ \\_$$  _|$$$\\  $$ |$$  __$$\\");
+        Window.text("$$ /  \\__|$$ |        $$ |        $$ /  \\__|$$ /  $$ |$$ /  \\__|  $$ |  $$$$\\ $$ |$$ /  $$ |");
+        Window.text("$$ |      $$ |        $$ |        $$ |      $$$$$$$$ |\\$$$$$$\\    $$ |  $$ $$\\$$ |$$ |  $$ |");
+        Window.text("$$ |      $$ |        $$ |        $$ |      $$  __$$ | \\____$$\\   $$ |  $$ \\$$$$ |$$ |  $$ |");
+        Window.text("$$ |  $$\\ $$ |        $$ |        $$ |  $$\\ $$ |  $$ |$$\\   $$ |  $$ |  $$ |\\$$$ |$$ |  $$ |");
+        Window.text("\\$$$$$$  |$$$$$$$$\\ $$$$$$\\       \\$$$$$$  |$$ |  $$ |\\$$$$$$  |$$$$$$\\ $$ | \\$$ | $$$$$$  |");
+        Window.text(" \\______/ \\________|\\______|       \\______/ \\__|  \\__| \\______/ \\______|\\__|  \\__| \\______/");
+        Window.empty();
+        Window.seperator();
 
     }
 
     public static void displayUserStats(User user) {
         int[] stats = user.getGameStats();
 
-        none();
-        seperator();
-        empty();
-        text("USER: " + user.getName());
-        text("AGE: " + user.getAge());
-        empty();
-        text("BALANCE: " + user.getBalance() + "$");
-        empty();
-        text("GAMES PLAYED: " + stats[0]);
-        text("GAMES WON: " + stats[1]);
-        text("GAMES LOST: " + stats[2]);
-        empty();
-        seperator();
-
-    }
-
-    public static void text(String text) {
-        System.out.print("* \t");
-        System.out.print(text);
-        
-        int n = text.length();
-        // Tab using '\t' as many times as needed to get to the end of the box
-        for (int i = 0; i < (100 - n - 4); i++) {
-            System.out.print(" ");
-        }
-        System.out.println("*");
-
-    }
-
-    public static void empty() {
-        System.out.println("*                                                                                                       *");
-    }
-
-    public static void seperator() {
-        System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-
-    }
-
-    public static void none() {
-        System.out.println("");
-
-    }
-
-    public static void clear() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        displayTitle();
-    }
-
-    public static int option(String q, String[] options) {
-        none();
-        seperator();
-        empty();
-        text(q);
-        empty();     
-
-        for (int i = 0; i < options.length; i++) {
-            text((i + 1) + ". " + options[i]);
-        }
-
-        empty();
-        seperator();
-
-        System.out.println();
-
-        int choice = scanner.nextInt();
-
-        return choice;
+        Window.none();
+        Window.seperator();
+        Window.empty();
+        Window.text("USER: " + user.getName());
+        Window.text("AGE: " + user.getAge());
+        Window.empty();
+        Window.text("BALANCE: " + user.getBalance() + "$");
+        Window.empty();
+        Window.text("GAMES PLAYED: " + stats[0]);
+        Window.text("GAMES WON: " + stats[1]);
+        Window.text("GAMES LOST: " + stats[2]);
+        Window.empty();
+        Window.seperator();
 
     }
 

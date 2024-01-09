@@ -1,12 +1,13 @@
+package Blackjack;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Blackjack
 {
-    public int[] playBlackjack(int money) {
-        Deck deck = new Deck();
+    public static int[] playBlackjack(int money, Scanner reader) {
+        Deck deck = new Deck(0);
 
-        Scanner reader = new Scanner(System.in);
         int choice=0, win=0, bet=money;//hit=1 stay=2 split=3
         //for loose: 1=dealer wins, 2 = player wins
         ArrayList<Integer> startingHand = new ArrayList<Integer>();
@@ -33,6 +34,7 @@ public class Blackjack
                 //if statment detecting if any two are the same and offer split
                 System.out.print("Enter choice: ");
                 choice=reader.nextInt();
+                System.out.println("TEST");
                 if(choice==1){
                     startingHand.add(deck.draw());
                 }
@@ -41,6 +43,7 @@ public class Blackjack
                 }
             }
 
+            System.out.println("Checking hand");
             if(getTotal(startingHand)>21){
                System.out.println("Bust!");
             }
@@ -68,8 +71,6 @@ public class Blackjack
             bet=0;
         }
         int[] results = new int[] {win,bet};
-
-        reader.close();
 
         return results;
 

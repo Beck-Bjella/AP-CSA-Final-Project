@@ -5,10 +5,6 @@ public class User {
 
     private int[] gameStats;
 
-    private int gameCount;
-    private int winCount;
-    private int lossCount;
-
     public User(String name, int age, int balance) {
         this.name = name;
         this.age = age;
@@ -46,10 +42,10 @@ public class User {
     public void addGame(Boolean win) {
         this.gameStats[0]++;
         if (win) {
-            this.gameStats[2]++;
+            this.gameStats[1]++;
             
         } else {
-            this.gameStats[1]++;
+            this.gameStats[2]++;
 
         }
 
