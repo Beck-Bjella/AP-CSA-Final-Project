@@ -1,7 +1,12 @@
 package Gui;
+
+// Imports
 import java.util.Scanner;
 
+// Window class 
+// This class is used to display text in a nice format
 public class Window {
+    // Display a message
     public static void text(String text) {
         System.out.print("* \t");
         System.out.print(text);
@@ -14,26 +19,31 @@ public class Window {
 
     }
 
+    // Display a new line
     public static void empty() {
         System.out.println("*                                                                                                       *");
     }
 
+    // Display a seperator
     public static void seperator() {
         System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
 
     }
 
+    // Display nothing on a new line
     public static void none() {
         System.out.println("");
 
     }
 
+    // Clear the screen
     public static void clear() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
     }
 
+    // As the user for a option
     public static int option(String q, String[] options, Scanner scanner) {
         seperator();
         empty();
@@ -53,7 +63,7 @@ public class Window {
 
     }
 
-    
+    // Display the main title
     public static void displayTitle() {
         Window.seperator();
         Window.empty();
@@ -71,6 +81,7 @@ public class Window {
 
     }
 
+    // Display the blackjack title
     public static void displayBlackjackTitle() {
         Window.seperator();
         Window.empty();
@@ -88,6 +99,7 @@ public class Window {
 
     }
 
+    // Display the roulette title
     public static void displayRouletteTitle() {
         Window.seperator();
         Window.empty();
@@ -105,6 +117,7 @@ public class Window {
 
     }
 
+    // Display the slots title
     public static void displaySlotsTitle() {
         Window.seperator();
         Window.empty();
@@ -122,6 +135,7 @@ public class Window {
         
     }
 
+    // Display the user stats
     public static void displayUserStats(User user) {
         int[] stats = user.getGameStats();
 
@@ -141,6 +155,7 @@ public class Window {
 
     }
 
+    // Display the user stats
     public static void displayBalance(User user) {
         Window.seperator();
         Window.empty();
@@ -151,16 +166,7 @@ public class Window {
 
     }
     
-    public static void displayBet(int bet) {
-        Window.seperator();
-        Window.empty();
-        Window.text("BET: $" + bet);
-        Window.empty();
-        Window.seperator();
-        Window.none();
-        
-    }
-
+    // Display the user balance and bet size
     public static void displayBalanceAndBet(User user, int bet) {
         Window.seperator();
         Window.empty();

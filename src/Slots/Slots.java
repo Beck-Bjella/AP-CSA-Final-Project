@@ -1,11 +1,14 @@
 package Slots;
 
+// Imports
 import java.util.Random;
 import java.util.Scanner;
 
 import Gui.User;
 import Gui.Window;
 
+// Slots class
+// This class is used to play slots
 public class Slots {
     public static SlotItem blankItem = new SlotItem("blank", new String[]{"       ", "       ", "  ---  ", "       "});
     public static SlotItem blurItem = new SlotItem("blur", new String[]{"       ", " ||||| ", " ||||| ", " ||||| "});
@@ -27,6 +30,7 @@ public class Slots {
     SlotItem win;
     double winScale = 1;
 
+    // Constructor
     public Slots() {
         slotConfig = new SlotItem[3][3];
         for (int i = 0; i < 3; i++) {
@@ -37,6 +41,7 @@ public class Slots {
         leverPos = leverOffItem;
     }
 
+    // Prefix for displaying the slots
     public static void prefix(User user, int bet) {
         Window.clear();
         Window.displaySlotsTitle();
@@ -44,6 +49,7 @@ public class Slots {
 
     }
 
+    // Play slots
     public int playSlots(int bet, User user, Scanner scanner) throws InterruptedException {
         prefix(user, bet);
         displaySlots();
@@ -81,6 +87,7 @@ public class Slots {
     
     }
 
+    // Display the slots
     public void displaySlots() {
         String[][][] indivSlot = slotsToStringArray(slotConfig);
         String[] lever = leverPos.getArray();
@@ -122,6 +129,7 @@ public class Slots {
 
     }
 
+    // Sets the interal slot configuration to spinning
     public void setSpinning() {
         leverPos = leverOnItem;
         
@@ -133,11 +141,13 @@ public class Slots {
 
     }
 
+    // Sets the internal slot configuration to stopped
     public void setStopped() {
         leverPos = leverOffItem;
 
     }
 
+    // Reveal the slots one by one
     public void reveal(User user, int bet) throws InterruptedException {
         SlotItem[][] slotConfigClone = new SlotItem[3][3];
 
@@ -174,6 +184,7 @@ public class Slots {
 
     }
 
+    // Convert the slot configuration to a string array
     public String[][][] slotsToStringArray(SlotItem[][] slotItems) {
         String[][][] stringArray = new String[3][3][4];
         for (int i = 0; i < 3; i++) {
@@ -184,6 +195,7 @@ public class Slots {
         return stringArray;
     }
 
+    // Convert the slot configuration to a string array
     public String[][] slotsToStringItem(SlotItem[][] slotItems) {
         String[][] stringItem = new String[3][3];
         for (int i = 0; i < 3; i++) {
@@ -194,17 +206,19 @@ public class Slots {
         return stringItem;
     }
 
+    // Generate a random slot configuration
     public void generateRandom() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 double itemChooser = r.nextDouble();
-                SlotItem slotItem = numToslotItem(itemChooser);
+                SlotItem slotItem = numToSlotItem(itemChooser);
                 slotConfig[i][j] = slotItem;
             }
         }
     }
 
-    public SlotItem numToslotItem(double num) {
+    // Convert a random number to a slot item
+    public SlotItem numToSlotItem(double num) {
         if (num < 0.03) return sevenItem;        // 3% chance
         else if (num < 0.08) return starItem;    // 5% chance
         else if (num < 0.15) return diamondItem; // 7% chance
@@ -215,7 +229,8 @@ public class Slots {
         else if (num < 0.88) return cardItem;    // 32% chance (scaled up)
         else return blankItem;
     }
-    
+
+    // Check all wins
     public void checkAllWins() {
         checkSevenWins();
         checkStarWins();
@@ -224,6 +239,7 @@ public class Slots {
         
     }
 
+    // Check if there are any seven wins
     public boolean checkSevenWins() {
         int count = 0;
         // Iterate through the entire grid and count the number of sevens
@@ -242,6 +258,7 @@ public class Slots {
         return false;
     }
 
+    // Check if there are any star wins
     public boolean checkStarWins() {
         String[][] slots = slotsToStringItem(slotConfig);
         String[] winTypes = {
@@ -265,6 +282,7 @@ public class Slots {
         return false;
     }
 
+    // Check if there are any card wins
     public boolean checkCardWins() {
         String[][] slots = slotsToStringItem(slotConfig);
         String[] winTypes = {
@@ -290,6 +308,7 @@ public class Slots {
         return false;
     }
 
+    // Check if there are any slot wins
     public boolean checkAllSlotWins() {
         String[][] slots = slotsToStringItem(slotConfig);
         String[] winTypes = {
@@ -327,6 +346,7 @@ public class Slots {
         return foundWin;
     }
 
+    // Check if a specific slot pattern is a win
     private boolean checkAndRecordWin(String[][] slots, int[] pattern, String winType, String specificSlotItem) {
         String firstSlot = specificSlotItem == null ? slots[pattern[0]][pattern[1]] : specificSlotItem;
         boolean isWin = true;

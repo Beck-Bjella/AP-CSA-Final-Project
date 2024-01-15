@@ -1,14 +1,20 @@
 package Blackjack;
 
+// Imports
 import java.util.Scanner;
 import java.util.ArrayList;
 
+// Blackjack class
+// This class is used to play blackjack
 public class Blackjack {
+    // Play blackjack
     public static int playBlackjack(int betAmount, Scanner reader) throws InterruptedException {
         Deck deck = new Deck(0);
 
-        int choice=0, win=0 ;//hit=1 stay=2 split=3
+        //hit=1 stay=2 split=3
         //for loose: 1=dealer wins, 2 = player wins
+        int choice=0, win=0 ;
+        
         ArrayList<Integer> startingHand = new ArrayList<Integer>();
         ArrayList<Integer> dealerHand = new ArrayList<Integer>();
 
@@ -84,6 +90,7 @@ public class Blackjack {
 
     }
 
+    // Get suit of card
     public static String getSuit (int card){
         switch((card/100)){
             case 0:
@@ -100,13 +107,16 @@ public class Blackjack {
         }
 
     }
+
+    // Get number of card
     public static int getNumber (int card){
         int temp=card-((card/100)*100);
         return temp;
 
     }
     
-    public static String getFace (int number){
+    // Get face of card
+    public static String getFace(int number){
         switch(number){
             case 1:
                 return "Ace";
@@ -121,7 +131,8 @@ public class Blackjack {
         }
     }
 
-    public static int getTotal (ArrayList<Integer> startingHand){
+    // Get total of hand
+    public static int getTotal(ArrayList<Integer> startingHand){
         int sum=0, temp, aces=0;
         for(int k=0;k<startingHand.size();k++){
             temp=getNumber(startingHand.get(k));
@@ -140,6 +151,7 @@ public class Blackjack {
                     break;
             }
         }
+
         for(int k=1; k<=aces;k++){
             if((sum+11)<21){
                 sum+=11;
@@ -149,8 +161,10 @@ public class Blackjack {
             }
         }
         return sum;
+
     }
 
+    // Display hands of both players
     public static void displayHands(ArrayList<Integer> startingHand, ArrayList<Integer> dealerHand) {
         System.out.println("+");
         System.out.println("|  Dealer's Hand: (" + getTotal(dealerHand) + ")");
@@ -163,6 +177,7 @@ public class Blackjack {
 
     }
 
+    // Print hand of player
     public static void printHand(ArrayList<Integer> startingHand){
         for(int k=0;k<startingHand.size();k++){
             if(getNumber(startingHand.get(k))==1||getNumber(startingHand.get(k))>10){

@@ -1,18 +1,26 @@
-## Getting Started
+# CLI Casino
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+CLI Casino is a simple command line interface casino game. This was a final project for AP Computer Science A. The games it includes are:
 
-## Folder Structure
+- Blackjack
+- Roulette
+- Slots
 
-The workspace contains two folders by default, where:
+## Installation 
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+To install CLI Casino, you just need to download the source code and run it. It has zero dependencies.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+```bash 
+  git clone https://github.com/yourusername/cli-casino.git
+  cd cli-casino
+  javac Main.java
+  java Main
+```
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Contributing
 
-## Dependency Management
+This project is finished and probably won't be accepting contributions.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## License
+
+This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.

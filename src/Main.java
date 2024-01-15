@@ -61,6 +61,7 @@ public class Main {
 
     }
 
+    // Plays a specific game (0 = Blackjack, 1 = Roulette, 2 = Slots)
     public static void playGame(int game, User user, Scanner scanner) throws InterruptedException {
         Window.clear();
         switch (game) {
@@ -177,6 +178,7 @@ public class Main {
 
     }
 
+    // Creates a new user at the start of the program
     public static User createNewUser(Scanner scanner) {
         Window.seperator();
         Window.empty();
@@ -206,6 +208,7 @@ public class Main {
 
     }
 
+    // Exits the program
     public static void exit() throws InterruptedException {
         Window.none();
         Window.seperator();

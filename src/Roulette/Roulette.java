@@ -1,14 +1,18 @@
 package Roulette;
 
+// Imports
 import java.util.Random;
 import java.util.Scanner;
 
+// Roulette class
+// This class is used to play roulette
 public class Roulette {
     private static final String[] BET_TYPES = {"Number", "Even/Odd", "Red/Black"};
     private static final int NUMBER_BET_MULTIPLIER = 36;
 
     private static Random random = new Random();
 
+    // Play roulette
     public static int playRoulette(int betAmount, Scanner scanner) throws InterruptedException {
         int betType = 4;
 
@@ -58,6 +62,7 @@ public class Roulette {
 
     }
 
+    // Get bet type
     private static int getBetType(Scanner scanner) {
         System.out.println("Select your bet type:");
         for (int i = 0; i < BET_TYPES.length; i++) {
@@ -80,24 +85,7 @@ public class Roulette {
         return choice;
     }
 
-    private static int getChosenNumber(Scanner scanner) {
-        int chosenNumber;
-        do {
-            System.out.print("Choose your number (0-36): ");
-            chosenNumber = scanner.nextInt();
-            System.out.println();
-
-            if (chosenNumber < 0 || chosenNumber > 36) {
-                System.out.println("Invalid number. Please choose a number between 0 and 36.");
-                System.out.println();
-            }
-
-        } while (chosenNumber < 0 || chosenNumber > 36);
-        
-
-        return chosenNumber;
-    }
-
+    // Play a number bet
     private static boolean playNumberBet(int betAmount, Scanner scanner) {
         int chosenNumber = getChosenNumber(scanner);
 
@@ -109,6 +97,7 @@ public class Roulette {
         
     }
 
+    // Play an even/odd bet
     private static boolean playEvenOddBet(int betAmount, Scanner scanner) {
         String chosenType = getEvenOddChoice(scanner);
         int rouletteNumber = random.nextInt(37);
@@ -129,6 +118,7 @@ public class Roulette {
 
     }
 
+    // Play a red/black bet
     private static boolean playRedBlackBet(int betAmount, Scanner scanner) {
         String chosenColor = getRedBlackChoice(scanner);
 
@@ -142,6 +132,26 @@ public class Roulette {
 
     }
 
+    // Get a chosen number
+    private static int getChosenNumber(Scanner scanner) {
+        int chosenNumber;
+        do {
+            System.out.print("Choose your number (0-36): ");
+            chosenNumber = scanner.nextInt();
+            System.out.println();
+
+            if (chosenNumber < 0 || chosenNumber > 36) {
+                System.out.println("Invalid number. Please choose a number between 0 and 36.");
+                System.out.println();
+            }
+
+        } while (chosenNumber < 0 || chosenNumber > 36);
+        
+
+        return chosenNumber;
+    }
+
+    // Get an even/odd choice
     private static String getEvenOddChoice(Scanner scanner) {
         int choice;
         do {
@@ -159,6 +169,7 @@ public class Roulette {
         return (choice == 1) ? "Even" : "Odd";
     }
 
+    // Get a red/black choice
     private static String getRedBlackChoice(Scanner scanner) {
         int choice;
         do {
@@ -176,6 +187,7 @@ public class Roulette {
         return (choice == 1) ? "Red" : "Black";
     }
 
+    // Get the color of a number
     private static String getNumberColor(int number) {
         if (number == 0) {
             return "Green";
