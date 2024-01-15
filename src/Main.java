@@ -34,21 +34,22 @@ public class Main {
             Window.displayUserStats(user);
             
             int sel = Window.option("Please select a game:", new String[]{"Blackjack", "Roulette", "Slots", "Exit"}, scanner);
-            switch (sel) {
-                case 1:
-                    playBlackjack(user, scanner);
-                    break;
+            
+            if (sel == 1 || sel == 2 || sel == 3) {
+                playGame(sel - 1, user, scanner);
 
-                case 2:
-                    playRoulette(user, scanner);
-                    break;
+            } else if (sel == 4) {
+                exit();
+                
+            } else {
+                Window.seperator();
+                Window.empty();
+                Window.text("Invalid input!");
+                Window.empty();
+                Window.seperator();
+                Window.none();
 
-                case 3:
-                    playSlots(user, scanner);
-                    break;
-
-                case 4:
-                    playing = false;
+                Thread.sleep(1000);
 
             }
 
@@ -59,13 +60,26 @@ public class Main {
         exit();
 
     }
-    
-    public static void playBlackjack(User user, Scanner scanner) throws InterruptedException {
-        Window.clear();
-        Window.displayBlackjackTitle();
-        Window.displayBalance(user);
 
-        int money = user.getBalance();
+    public static void playGame(int game, User user, Scanner scanner) throws InterruptedException {
+        Window.clear();
+        switch (game) {
+            case 0:
+                Window.displayBlackjackTitle();
+                break;
+
+            case 1:
+                Window.displayRouletteTitle();
+                break;
+
+            case 2:
+                Window.displaySlotsTitle();
+                break;
+
+            default:
+                break;
+        }
+        Window.displayBalance(user);
 
         Window.seperator();
         Window.empty();
@@ -74,72 +88,23 @@ public class Main {
         Window.seperator();
         Window.none();
 
+        int money = user.getBalance();
         int bet = scanner.nextInt();
         System.out.println();
-
-        if (money - bet < 0) {
-            Window.seperator();
-            Window.empty();
-            Window.text("You don't have enough money to play!");
-            Window.empty();
-            Window.seperator();
-            Window.none();
-
-            return;
-
-        }
-
-        Window.clear();
-        Window.displayBlackjackTitle();
-        Window.displayBalanceAndBet(user, bet);
-
-        int profit = Blackjack.playBlackjack(bet, scanner);
-        user.setBalance(money + profit);
         
-        if (profit > 0) {
-            user.addGame(true); 
 
+        if (bet < 0) {
             Window.seperator();
             Window.empty();
-            Window.text("You won $" + (profit) + "!");
-            Window.empty();
-            Window.seperator();
-            Window.none();
-
-            Thread.sleep(5000);
-
-        } else {
-            user.addGame(false);
-
-            Window.seperator();
-            Window.empty();
-            Window.text("You lost $" + (-profit) + "!");
+            Window.text("You can't bet negative money!");
             Window.empty();
             Window.seperator();
             Window.none();
 
-            Thread.sleep(5000);
+            Thread.sleep(1000);
+            return;
 
         }
-
-    }
-
-    public static void playRoulette(User user, Scanner scanner) throws InterruptedException {
-        Window.clear();
-        Window.displayRouletteTitle();
-        Window.displayBalance(user);
-
-        int money = user.getBalance();
-
-        Window.seperator();
-        Window.empty();
-        Window.text("How much would you like to bet?");
-        Window.empty();
-        Window.seperator();
-        Window.none();
-
-        int bet = scanner.nextInt();
-        System.out.println();
 
         if (money - bet < 0) {
             Window.seperator();
@@ -148,81 +113,45 @@ public class Main {
             Window.empty();
             Window.seperator();
             Window.none();
-
             return;
 
         }
 
-        Window.clear();
-        Window.displayRouletteTitle();
-        Window.displayBalanceAndBet(user, bet);
+        int profit = 0;
+        switch (game) {
+            case 0:
+                Window.clear();
+                Window.displayBlackjackTitle();
+                Window.displayBalanceAndBet(user, bet);
+                
+                profit = Blackjack.playBlackjack(bet, scanner);
+                break;
 
-        int profit = Roulette.playRoulette(bet, scanner);
+            case 1:
+                Window.clear();
+                Window.displayRouletteTitle();
+                Window.displayBalanceAndBet(user, bet);
+        
+                profit = Roulette.playRoulette(bet, scanner);
+                break;
+
+            case 2:
+                Window.clear();
+                Window.displaySlotsTitle();
+                Window.displayBalanceAndBet(user, bet);
+
+                profit = new Slots().playSlots(bet, user, scanner);
+                break;
+        
+            default:
+                break;
+
+        }
         user.setBalance(money + profit);
 
         if (profit > 0) {
             user.addGame(true); 
             
-            Window.seperator();
-            Window.empty();
-            Window.text("You won $" + (profit) + "!");
-            Window.empty();
-            Window.seperator();
-            Window.none();
-
-            Thread.sleep(5000);
-
-        } else {
-            user.addGame(false);
-
-            Window.seperator();
-            Window.empty();
-            Window.text("You lost $" + (-profit) + "!");
-            Window.empty();
-            Window.seperator();
-            Window.none();
-
-            Thread.sleep(5000);
-
-        }
-
-    }
-
-    public static void playSlots(User user, Scanner scanner) throws InterruptedException {
-        Window.clear();
-        Window.displaySlotsTitle();
-        Window.displayBalance(user);
-
-        int money = user.getBalance();
-
-        Window.seperator();
-        Window.empty();
-        Window.text("How much would you like to bet?");
-        Window.empty();
-        Window.seperator();
-        Window.none();
-
-        int bet = scanner.nextInt();
-        System.out.println();
-
-        if (money - bet < 0) {
-            Window.seperator();
-            Window.empty();
-            Window.text("You don't have enough money to play!");
-            Window.empty();
-            Window.seperator();
-            Window.none();
-
-            return;
-
-        }
-
-        int profit = new Slots().playSlots(bet, user, scanner);
-        user.setBalance(money + profit);
-
-        if (profit > 0) {
-            user.addGame(true); 
-
             Window.seperator();
             Window.empty();
             Window.text("You won $" + (profit) + "!");

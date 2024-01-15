@@ -47,6 +47,7 @@ public class Window {
         none();
 
         int choice = scanner.nextInt();
+        System.out.println();
 
         return choice;
 

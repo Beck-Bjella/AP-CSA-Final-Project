@@ -10,8 +10,10 @@ public class Roulette {
     private static Random random = new Random();
 
     public static int playRoulette(int betAmount, Scanner scanner) throws InterruptedException {
-        int betType = getBetType(scanner);
-        
+        int betType = 4;
+
+        betType = getBetType(scanner);
+
         boolean win = false;
         int winAmount = 0;
         switch (betType) {
@@ -40,6 +42,8 @@ public class Roulette {
                 break;
 
             default:
+                System.out.println("Invalid bet type.");
+                System.out.println();
                 break;
 
         }
@@ -66,12 +70,12 @@ public class Roulette {
             choice = scanner.nextInt();
             System.out.println();
 
-            if (choice < 0 || choice > BET_TYPES.length) {
-                System.out.println("Invalid choice. Please choose a number between 1 and " + BET_TYPES.length);
+            if (choice < 0 || choice > 2) {
+                System.out.println("Invalid choice. Please choose a number between 0 and 3.");
                 System.out.println();
             }
 
-        } while (choice < 0 || choice > BET_TYPES.length);
+        } while (choice < 0 || choice > 2);
 
         return choice;
     }
