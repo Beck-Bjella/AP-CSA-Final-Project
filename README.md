@@ -11,8 +11,8 @@ CLI Casino is a simple command line interface casino game. This was a final proj
 To install CLI Casino, you just need to download the source code and run it. It has zero dependencies.
 
 ```bash 
-  git clone https://github.com/yourusername/cli-casino.git
-  cd cli-casino
+  git clone https://github.com/Beck-Bjella/cli-casino.git
+  cd cli-casino/src
   javac Main.java
   java Main
 ```
