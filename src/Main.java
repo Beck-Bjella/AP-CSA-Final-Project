@@ -1,3 +1,13 @@
+/**
+ * CLI Casino is a simple command line interface casino game. It has three games:
+ *   - Blackjack
+ *   - Roulette
+ *   - Slots
+ * 
+ * Authors: Beck, Neev, Aditya, and Mohan.
+ * 
+ */
+
 import java.util.Scanner;
 
 import Blackjack.Blackjack;
@@ -7,6 +17,7 @@ import Gui.User;
 import Gui.Window;
 
 public class Main {
+    // Main method
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
@@ -27,6 +38,7 @@ public class Main {
 
         }
         
+        // Main game loop
         boolean playing = true;
         while (playing) {
             Window.clear();
