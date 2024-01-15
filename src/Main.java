@@ -1,13 +1,16 @@
 import java.util.Scanner;
 
 import Blackjack.Blackjack;
+import Gui.User;
+import Gui.Window;
 import Roulette.Roulette;
+import Slots.Slots;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        displayTitle();
+        Window.displayTitle();
 
         User user = createNewUser(scanner);
 
@@ -27,8 +30,8 @@ public class Main {
         boolean playing = true;
         while (playing) {
             Window.clear();
-            displayTitle();
-            displayUserStats(user);
+            Window.displayTitle();
+            Window.displayUserStats(user);
             
             int sel = Window.option("Please select a game:", new String[]{"Blackjack", "Roulette", "Slots", "Exit"}, scanner);
             switch (sel) {
@@ -41,7 +44,7 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("Slots");
+                    playSlots(user, scanner);
                     break;
 
                 case 4:
@@ -59,8 +62,8 @@ public class Main {
     
     public static void playBlackjack(User user, Scanner scanner) throws InterruptedException {
         Window.clear();
-        displayBlackjackTitle();
-        displayUserStats(user);
+        Window.displayBlackjackTitle();
+        Window.displayBalance(user);
 
         int money = user.getBalance();
 
@@ -94,7 +97,7 @@ public class Main {
 
             Window.seperator();
             Window.empty();
-            Window.text("You won " + (profit) + "$!");
+            Window.text("You won $" + (profit) + "!");
             Window.empty();
             Window.seperator();
             Window.none();
@@ -107,7 +110,7 @@ public class Main {
             Window.none();
             Window.seperator();
             Window.empty();
-            Window.text("You lost " + (-profit) + "$!");
+            Window.text("You lost $" + (-profit) + "!");
             Window.empty();
             Window.seperator();
             Window.none();
@@ -120,8 +123,8 @@ public class Main {
 
     public static void playRoulette(User user, Scanner scanner) throws InterruptedException {
         Window.clear();
-        displayRouletteTitle();
-        displayUserStats(user);
+        Window.displayRouletteTitle();
+        Window.displayBalance(user);
 
         int money = user.getBalance();
 
@@ -155,11 +158,11 @@ public class Main {
 
             Window.seperator();
             Window.empty();
-            Window.text("You won " + (profit) + "$!");
+            
             Window.empty();
             Window.seperator();
             Window.none();
-
+            Window.text("You won $" + (profit) + "!");
             Thread.sleep(3000);
 
         } else {
@@ -167,12 +170,72 @@ public class Main {
 
             Window.seperator();
             Window.empty();
-            Window.text("You lost " + (-profit) + "$!");
+            Window.text("You lost $" + (-profit) + "!");
             Window.empty();
             Window.seperator();
             Window.none();
 
             Thread.sleep(3000);
+
+        }
+
+    }
+
+    public static void playSlots(User user, Scanner scanner) throws InterruptedException {
+        Window.clear();
+        Window.displaySlotsTitle();
+        Window.displayBalance(user);
+
+        int money = user.getBalance();
+
+        Window.seperator();
+        Window.empty();
+        Window.text("How much would you like to bet?");
+        Window.empty();
+        Window.seperator();
+        Window.none();
+
+        int bet = scanner.nextInt();
+        System.out.println();
+
+        if (money - bet < 0) {
+            Window.seperator();
+            Window.empty();
+            Window.text("You don't have enough money to play!");
+            Window.empty();
+            Window.seperator();
+            Window.none();
+
+            return;
+
+        }
+
+        int profit = new Slots().playSlots(bet, user, scanner);
+        user.setBalance(money + profit);
+
+        if (profit > 0) {
+            user.addGame(true); 
+
+            Window.seperator();
+            Window.empty();
+            Window.text("You won $" + (profit) + "!");
+            Window.empty();
+            Window.seperator();
+            Window.none();
+
+            Thread.sleep(5000);
+
+        } else {
+            user.addGame(false);
+
+            Window.seperator();
+            Window.empty();
+            Window.text("You lost $" + (-profit) + "!");
+            Window.empty();
+            Window.seperator();
+            Window.none();
+
+            Thread.sleep(5000);
 
         }
 
@@ -204,76 +267,6 @@ public class Main {
         User user = new User(name, age, 10000);
 
         return user;
-
-    }
-
-    public static void displayUserStats(User user) {
-        int[] stats = user.getGameStats();
-
-        Window.seperator();
-        Window.empty();
-        Window.text("USER: " + user.getName());
-        Window.text("AGE: " + user.getAge());
-        Window.empty();
-        Window.text("BALANCE: " + user.getBalance() + "$");
-        Window.empty();
-        Window.text("GAMES PLAYED: " + stats[0]);
-        Window.text("GAMES WON: " + stats[1]);
-        Window.text("GAMES LOST: " + stats[2]);
-        Window.empty();
-        Window.seperator();
-        Window.none();
-
-    }
-
-    public static void displayTitle() {
-        Window.seperator();
-        Window.empty();
-        Window.text(" $$$$$$\\  $$\\       $$$$$$\\        $$$$$$\\   $$$$$$\\   $$$$$$\\  $$$$$$\\ $$\\   $$\\  $$$$$$\\");
-        Window.text("$$  __$$\\ $$ |      \\_$$  _|      $$  __$$\\ $$  __$$\\ $$  __$$\\ \\_$$  _|$$$\\  $$ |$$  __$$\\");
-        Window.text("$$ /  \\__|$$ |        $$ |        $$ /  \\__|$$ /  $$ |$$ /  \\__|  $$ |  $$$$\\ $$ |$$ /  $$ |");
-        Window.text("$$ |      $$ |        $$ |        $$ |      $$$$$$$$ |\\$$$$$$\\    $$ |  $$ $$\\$$ |$$ |  $$ |");
-        Window.text("$$ |      $$ |        $$ |        $$ |      $$  __$$ | \\____$$\\   $$ |  $$ \\$$$$ |$$ |  $$ |");
-        Window.text("$$ |  $$\\ $$ |        $$ |        $$ |  $$\\ $$ |  $$ |$$\\   $$ |  $$ |  $$ |\\$$$ |$$ |  $$ |");
-        Window.text("\\$$$$$$  |$$$$$$$$\\ $$$$$$\\       \\$$$$$$  |$$ |  $$ |\\$$$$$$  |$$$$$$\\ $$ | \\$$ | $$$$$$  |");
-        Window.text(" \\______/ \\________|\\______|       \\______/ \\__|  \\__| \\______/ \\______|\\__|  \\__| \\______/");
-        Window.empty();
-        Window.seperator();
-        Window.none();
-
-    }
-
-    public static void displayBlackjackTitle() {
-        Window.seperator();
-        Window.empty();
-        Window.text("$$$$$$$\\  $$\\        $$$$$$\\   $$$$$$\\  $$\\   $$\\   $$$$$\\  $$$$$$\\   $$$$$$\\  $$\\   $$\\");
-        Window.text("$$  __$$\\ $$ |      $$  __$$\\ $$  __$$\\ $$ | $$  |  \\__$$ |$$  __$$\\ $$  __$$\\ $$ | $$  |");
-        Window.text("$$ |  $$ |$$ |      $$ /  $$ |$$ /  \\__|$$ |$$  /      $$ |$$ /  $$ |$$ /  \\__|$$ |$$  /");
-        Window.text("$$$$$$$\\ |$$ |      $$$$$$$$ |$$ |      $$$$$  /       $$ |$$$$$$$$ |$$ |      $$$$$  /");
-        Window.text("$$  __$$\\ $$ |      $$  __$$ |$$ |      $$  $$<  $$\\   $$ |$$  __$$ |$$ |      $$  $$<");
-        Window.text("$$ |  $$ |$$ |      $$ |  $$ |$$ |  $$\\ $$ |\\$$\\ $$ |  $$ |$$ |  $$ |$$ |  $$\\ $$ |\\$$\\");
-        Window.text("$$$$$$$  |$$$$$$$$\\ $$ |  $$ |\\$$$$$$  |$$ | \\$$\\\\$$$$$$  |$$ |  $$ |\\$$$$$$  |$$ | \\$$\\");
-        Window.text("\\_______/ \\________|\\__|  \\__| \\______/ \\__|  \\__|\\______/ \\__|  \\__| \\______/ \\__|  \\__");
-        Window.empty();
-        Window.seperator();
-        Window.none();
-
-    }
-
-    public static void displayRouletteTitle() {
-        Window.seperator();
-        Window.empty();
-        Window.text("$$$$$$$\\   $$$$$$\\  $$\\   $$\\ $$\\       $$$$$$$$\\ $$$$$$$$\\ $$$$$$$$\\ $$$$$$$$\\");
-        Window.text("$$  __$$\\ $$  __$$\\ $$ |  $$ |$$ |      $$  _____|\\__$$  __|\\__$$  __|$$  _____|");
-        Window.text("$$ |  $$ |$$ /  $$ |$$ |  $$ |$$ |      $$ |         $$ |      $$ |   $$ |");
-        Window.text("$$$$$$$  |$$ |  $$ |$$ |  $$ |$$ |      $$$$$\\       $$ |      $$ |   $$$$$\\");
-        Window.text("$$  __$$< $$ |  $$ |$$ |  $$ |$$ |      $$  __|      $$ |      $$ |   $$  __|");
-        Window.text("$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |      $$ |         $$ |      $$ |   $$ |");
-        Window.text("$$ |  $$ | $$$$$$  |\\$$$$$$  |$$$$$$$$\\ $$$$$$$$\\    $$ |      $$ |   $$$$$$$$\\");
-        Window.text("\\__|  \\__| \\______/  \\______/ \\________|\\________|   \\__|      \\__|   \\________|");
-        Window.empty();
-        Window.seperator();
-        Window.none();
 
     }
 

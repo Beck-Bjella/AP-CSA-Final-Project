@@ -91,6 +91,7 @@ public class Blackjack {
         int temp=card-((card/100)*100);
         return temp;
     }
+    
     public static String getFace (int number){
         switch(number){
             case 1:
@@ -105,6 +106,7 @@ public class Blackjack {
                 return "error";
         }
     }
+
     public static int getTotal (ArrayList<Integer> startingHand){
         int sum=0, temp, aces=0;
         for(int k=0;k<startingHand.size();k++){
