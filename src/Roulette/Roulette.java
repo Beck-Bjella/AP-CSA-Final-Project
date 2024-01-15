@@ -64,9 +64,11 @@ public class Roulette {
         do {
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
+            System.out.println();
 
             if (choice < 0 || choice > BET_TYPES.length) {
                 System.out.println("Invalid choice. Please choose a number between 1 and " + BET_TYPES.length);
+                System.out.println();
             }
 
         } while (choice < 0 || choice > BET_TYPES.length);
@@ -79,12 +81,15 @@ public class Roulette {
         do {
             System.out.print("Choose your number (0-36): ");
             chosenNumber = scanner.nextInt();
+            System.out.println();
 
             if (chosenNumber < 0 || chosenNumber > 36) {
                 System.out.println("Invalid number. Please choose a number between 0 and 36.");
+                System.out.println();
             }
 
         } while (chosenNumber < 0 || chosenNumber > 36);
+        
 
         return chosenNumber;
     }
@@ -94,6 +99,7 @@ public class Roulette {
 
         int rouletteNumber = random.nextInt(37);
         System.out.println("The roulette landed on: " + rouletteNumber);
+        System.out.println();
 
         return chosenNumber == rouletteNumber;
         
@@ -104,6 +110,7 @@ public class Roulette {
         int rouletteNumber = random.nextInt(37);
 
         System.out.println("The roulette landed on: " + rouletteNumber);
+        System.out.println();
 
         if (chosenType.equalsIgnoreCase("Even") && rouletteNumber % 2 == 0) {
             return true;
@@ -125,6 +132,7 @@ public class Roulette {
         String rouletteColor = getNumberColor(rouletteNumber);
 
         System.out.println("The roulette landed on: " + rouletteNumber + " (" + rouletteColor + ")");
+        System.out.println();
 
         return chosenColor.equalsIgnoreCase(rouletteColor);
 
@@ -135,9 +143,11 @@ public class Roulette {
         do {
             System.out.print("Choose even (1) or odd (2): ");
             choice = scanner.nextInt();
+            System.out.println();
 
             if (choice != 1 && choice != 2) {
                 System.out.println("Invalid choice. Please enter 1 for even or 2 for odd.");
+                System.out.println();
             }
 
         } while (choice != 1 && choice != 2);
@@ -150,9 +160,11 @@ public class Roulette {
         do {
             System.out.print("Choose red (1) or black (2): ");
             choice = scanner.nextInt();
+            System.out.println();
 
             if (choice != 1 && choice != 2) {
                 System.out.println("Invalid choice. Please enter 1 for red or 2 for black.");
+                System.out.println();
             }
 
         } while (choice != 1 && choice != 2);

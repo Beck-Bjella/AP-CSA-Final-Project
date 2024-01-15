@@ -15,45 +15,43 @@ public class Blackjack {
         startingHand.add(deck.draw());
         startingHand.add(deck.draw());
         dealerHand.add(deck.draw());
-        //printing the hand
         do{
-            //printing player's hand
-            System.out.println("Dealer's Hand: ");
-            printHand(dealerHand);
-            System.out.println("****** |");
-            System.out.println("Your hand:");
-            printHand(startingHand);
+            //printing hands
+            displayHands(startingHand, dealerHand);
+
             if(getTotal(startingHand)>21){
                choice=2;
                win=1;
             }
             else{
-                System.out.println("Total is "+getTotal(startingHand));
                 System.out.println("1. Hit 2. Stay");
-                //if statment detecting if any two are the same and offer split
                 System.out.print("Enter choice: ");
                 choice=reader.nextInt();
+
                 if(choice==1){
                     startingHand.add(deck.draw());
                 }
                 else{
                     choice=2;
                 }
+
             }
 
-            System.out.println("Checking hand");
             if(getTotal(startingHand)>21){
                System.out.println("Bust!");
+
             }
-        }while(choice != 2);
+            System.out.println();
+
+        } while(choice != 2);
 
         //dealer taking turn
         if(win!=1){
             do{
                 dealerHand.add(deck.draw());
             }while(getTotal(dealerHand)<17);
-            System.out.println("Dealer's hand:");
-            printHand(dealerHand);
+
+            displayHands(startingHand, dealerHand);
 
             if(getTotal(dealerHand)>getTotal(startingHand) && getTotal(dealerHand)<=21){
                 win=1;
@@ -70,6 +68,18 @@ public class Blackjack {
             return -betAmount;
 
         }
+
+    }
+
+    public static void displayHands(ArrayList<Integer> startingHand, ArrayList<Integer> dealerHand) {
+        System.out.println("+");
+        System.out.println("|  Dealer's Hand: (" + getTotal(dealerHand) + ")");
+        printHand(dealerHand);
+        System.out.println("|");
+        System.out.println("|  Your hand: (" + getTotal(startingHand) + ")");
+        printHand(startingHand);
+        System.out.println("+");
+        System.out.println();
 
     }
 
@@ -139,12 +149,13 @@ public class Blackjack {
     public static void printHand(ArrayList<Integer> startingHand){
         for(int k=0;k<startingHand.size();k++){
             if(getNumber(startingHand.get(k))==1||getNumber(startingHand.get(k))>10){
-                System.out.print(getFace(getNumber(startingHand.get(k))));
+                System.out.print("|     * " + getFace(getNumber(startingHand.get(k))));
             }
             else{
-                System.out.print(getNumber(startingHand.get(k)));
+                System.out.print("|     * " + getNumber(startingHand.get(k)));
             }
-            System.out.print(" of "+getSuit(startingHand.get(k))+" | ");
+            System.out.println(" of "+getSuit(startingHand.get(k)));
         }
+
     }
 }

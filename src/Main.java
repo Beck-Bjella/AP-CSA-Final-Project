@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 import Blackjack.Blackjack;
-import Gui.User;
-import Gui.Window;
 import Roulette.Roulette;
 import Slots.Slots;
+import Gui.User;
+import Gui.Window;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -89,6 +89,10 @@ public class Main {
 
         }
 
+        Window.clear();
+        Window.displayBlackjackTitle();
+        Window.displayBalanceAndBet(user, bet);
+
         int profit = Blackjack.playBlackjack(bet, scanner);
         user.setBalance(money + profit);
         
@@ -102,12 +106,11 @@ public class Main {
             Window.seperator();
             Window.none();
 
-            Thread.sleep(3000);
+            Thread.sleep(5000);
 
         } else {
             user.addGame(false);
 
-            Window.none();
             Window.seperator();
             Window.empty();
             Window.text("You lost $" + (-profit) + "!");
@@ -115,7 +118,7 @@ public class Main {
             Window.seperator();
             Window.none();
 
-            Thread.sleep(3000);
+            Thread.sleep(5000);
 
         }
 
@@ -150,20 +153,24 @@ public class Main {
 
         }
 
+        Window.clear();
+        Window.displayRouletteTitle();
+        Window.displayBalanceAndBet(user, bet);
+
         int profit = Roulette.playRoulette(bet, scanner);
         user.setBalance(money + profit);
 
         if (profit > 0) {
             user.addGame(true); 
-
+            
             Window.seperator();
             Window.empty();
-            
+            Window.text("You won $" + (profit) + "!");
             Window.empty();
             Window.seperator();
             Window.none();
-            Window.text("You won $" + (profit) + "!");
-            Thread.sleep(3000);
+
+            Thread.sleep(5000);
 
         } else {
             user.addGame(false);
@@ -175,7 +182,7 @@ public class Main {
             Window.seperator();
             Window.none();
 
-            Thread.sleep(3000);
+            Thread.sleep(5000);
 
         }
 
