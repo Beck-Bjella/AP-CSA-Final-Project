@@ -12,7 +12,7 @@ To install CLI Casino, you just need to download the source code and run it. It 
 
 ```bash 
   git clone https://github.com/Beck-Bjella/cli-casino.git
-  cd cli-casino
+  cd cli-casino/src
   javac Main.java
   java Main
 ```
