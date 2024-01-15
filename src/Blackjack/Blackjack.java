@@ -3,12 +3,11 @@ package Blackjack;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class Blackjack
-{
-    public static int[] playBlackjack(int money, Scanner reader) {
+public class Blackjack {
+    public static int playBlackjack(int betAmount, Scanner reader) throws InterruptedException {
         Deck deck = new Deck(0);
 
-        int choice=0, win=0, bet=money;//hit=1 stay=2 split=3
+        int choice=0, win=0 ;//hit=1 stay=2 split=3
         //for loose: 1=dealer wins, 2 = player wins
         ArrayList<Integer> startingHand = new ArrayList<Integer>();
         ArrayList<Integer> dealerHand = new ArrayList<Integer>();
@@ -34,7 +33,6 @@ public class Blackjack
                 //if statment detecting if any two are the same and offer split
                 System.out.print("Enter choice: ");
                 choice=reader.nextInt();
-                System.out.println("TEST");
                 if(choice==1){
                     startingHand.add(deck.draw());
                 }
@@ -48,6 +46,7 @@ public class Blackjack
                System.out.println("Bust!");
             }
         }while(choice != 2);
+
         //dealer taking turn
         if(win!=1){
             do{
@@ -63,18 +62,17 @@ public class Blackjack
             }    
 
         }
-     
-        if(win==2){
-            bet +=(bet/2);
-        }
-        if (win==1) {
-            bet=0;
-        }
-        int[] results = new int[] {win,bet};
 
-        return results;
+        if (win == 2) {
+            return betAmount;
+            
+        } else {
+            return -betAmount;
+
+        }
 
     }
+
     public static String getSuit (int card){
         switch((card/100)){
             case 0:

@@ -4,62 +4,57 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Roulette {
-    private static final int MIN_BET = 1;
-    private static final int MAX_BET = 1000;
-    private static final int MIN_BALANCE = 100;
-
     private static final String[] BET_TYPES = {"Number", "Even/Odd", "Red/Black"};
-    private static final String[] COLORS = {"Red", "Black"};
-
     private static final int NUMBER_BET_MULTIPLIER = 36;
 
-    private static Scanner scanner = new Scanner(System.in);
     private static Random random = new Random();
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to the Roulette Game!");
+    public static int playRoulette(int betAmount, Scanner scanner) throws InterruptedException {
+        int betType = getBetType(scanner);
+        
+        boolean win = false;
+        int winAmount = 0;
+        switch (betType) {
+            case 0:
+                win = playNumberBet(betAmount, scanner);
+                if (win) {
+                    winAmount = betAmount * NUMBER_BET_MULTIPLIER;
+                }
 
-        while (true) {
-            int betAmount = getBetAmount();
+                break;
 
-            int betType = getBetType();
+            case 1:
+                win = playEvenOddBet(betAmount, scanner);
+                if (win) {
+                    winAmount = betAmount;
+                }
 
-            if (betType == 0) {
-                int chosenNumber = getChosenNumber();
-                playNumberBet(betAmount, chosenNumber);
-            } else {
-                playNonNumberBet(betAmount, betType);
-            }
+                break;
+
+            case 2:
+                win = playRedBlackBet(betAmount, scanner);
+                if (win) {
+                    winAmount = betAmount;
+                }
+
+                break;
+
+            default:
+                break;
+
         }
 
-        // System.out.println("Game Over! Thank you for playing.");
+        if (win) {
+            return winAmount;
+
+        } else {
+            return -betAmount;
+
+        }
+
     }
 
-    private static int getBetAmount() {
-        int betAmount;
-        do {
-            System.out.print("Place your bet (1 - 1000, 0 to exit): ");
-            betAmount = scanner.nextInt();
-
-            if (betAmount == 0) {
-                exitGame();
-            }
-
-            if (betAmount < MIN_BET || betAmount > MAX_BET) {
-                System.out.println("Invalid bet amount. Please bet between 1 and " + MAX_BET);
-            }
-
-        } while (betAmount < MIN_BET || betAmount > MAX_BET);
-
-        return betAmount;
-    }
-
-    private static void exitGame() {
-        System.out.println("Game Over! Thank you for playing.");
-        System.exit(0);
-    }
-
-    private static int getBetType() {
+    private static int getBetType(Scanner scanner) {
         System.out.println("Select your bet type:");
         for (int i = 0; i < BET_TYPES.length; i++) {
             System.out.println((i) + ". " + BET_TYPES[i]);
@@ -79,7 +74,7 @@ public class Roulette {
         return choice;
     }
 
-    private static int getChosenNumber() {
+    private static int getChosenNumber(Scanner scanner) {
         int chosenNumber;
         do {
             System.out.print("Choose your number (0-36): ");
@@ -94,32 +89,48 @@ public class Roulette {
         return chosenNumber;
     }
 
-    private static void playNumberBet(int betAmount, int chosenNumber) {
+    private static boolean playNumberBet(int betAmount, Scanner scanner) {
+        int chosenNumber = getChosenNumber(scanner);
+
         int rouletteNumber = random.nextInt(37);
         System.out.println("The roulette landed on: " + rouletteNumber);
 
-        if (chosenNumber == rouletteNumber) {
-            int winnings = betAmount * NUMBER_BET_MULTIPLIER;
-            System.out.println("Congratulations! You won " + winnings + " chips!");
-        } else {
-            System.out.println("Sorry! You lost " + betAmount + " chips.");
-        }
+        return chosenNumber == rouletteNumber;
+        
     }
 
-    private static void playNonNumberBet(int betAmount, int betType) {
-        String chosenColor = (betType == 1) ? getEvenOddChoice() : getRedBlackChoice();
+    private static boolean playEvenOddBet(int betAmount, Scanner scanner) {
+        String chosenType = getEvenOddChoice(scanner);
+        int rouletteNumber = random.nextInt(37);
+
+        System.out.println("The roulette landed on: " + rouletteNumber);
+
+        if (chosenType.equalsIgnoreCase("Even") && rouletteNumber % 2 == 0) {
+            return true;
+
+        } else if (chosenType.equalsIgnoreCase("Odd") && rouletteNumber % 2 == 1) {
+            return true;
+
+        } else {
+            return false;
+            
+        }
+
+    }
+
+    private static boolean playRedBlackBet(int betAmount, Scanner scanner) {
+        String chosenColor = getRedBlackChoice(scanner);
+
         int rouletteNumber = random.nextInt(37);
         String rouletteColor = getNumberColor(rouletteNumber);
+
         System.out.println("The roulette landed on: " + rouletteNumber + " (" + rouletteColor + ")");
 
-        if (chosenColor.equalsIgnoreCase(rouletteColor)) {
-            System.out.println("Congratulations! You won " + betAmount + " chips!");
-        } else {
-            System.out.println("Sorry! You lost " + betAmount + " chips");
-        }
+        return chosenColor.equalsIgnoreCase(rouletteColor);
+
     }
 
-    private static String getEvenOddChoice() {
+    private static String getEvenOddChoice(Scanner scanner) {
         int choice;
         do {
             System.out.print("Choose even (1) or odd (2): ");
@@ -134,7 +145,7 @@ public class Roulette {
         return (choice == 1) ? "Even" : "Odd";
     }
 
-    private static String getRedBlackChoice() {
+    private static String getRedBlackChoice(Scanner scanner) {
         int choice;
         do {
             System.out.print("Choose red (1) or black (2): ");
@@ -152,11 +163,12 @@ public class Roulette {
     private static String getNumberColor(int number) {
         if (number == 0) {
             return "Green";
-        } else if ((number % 2 == 0 && number >= 1 && number <= 10) || (number % 2 == 1 && number >= 11 && number <= 18)
-                || (number % 2 == 0 && number >= 19 && number <= 28) || (number % 2 == 1 && number >= 29 && number <= 36)) {
+        } else if ((number % 2 == 0 && number >= 1 && number <= 10) || (number % 2 == 1 && number >= 11 && number <= 18) || (number % 2 == 0 && number >= 19 && number <= 28) || (number % 2 == 1 && number >= 29 && number <= 36)) {
             return "Red";
         } else {
             return "Black";
         }
+        
     }
+
 }

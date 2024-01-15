@@ -34,26 +34,21 @@ public class Window {
     }
 
     public static int option(String q, String[] options, Scanner scanner) {
-        none();
         seperator();
         empty();
         text(q);
         empty();     
-
         for (int i = 0; i < options.length; i++) {
             text((i + 1) + ". " + options[i]);
         }
-
         empty();
         seperator();
-
-        System.out.println();
+        none();
 
         int choice = scanner.nextInt();
 
         return choice;
 
     }
-
     
 }
